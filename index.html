@@ -532,8 +532,7 @@
       <nav class="nav-links">
         <a href="#services">Services</a>
         <a href="#request">Request Help</a>
-        <a href="#requests">Demo Requests</a>
-        <a href="#reviews">Reviews</a>
+                <a href="#reviews">Reviews</a>
       </nav>
     </div>
   </header>
@@ -645,29 +644,7 @@
               <button class="button primary" type="submit">Submit fun request</button>
             </form>
           </div>
-
-          <div class="form-card">
-            <h3>How this free version works</h3>
-            <p class="muted">
-              This is a static browser app. It stores sample task requests in your browser only. For real online submissions from other people, connect the form to a free Google Form, Formspree, Airtable form, or a small backend later.
-            </p>
-            <hr style="border:0; border-top:1px solid var(--border); margin:22px 0;" />
-            <h3>Suggested funny promise</h3>
-            <p class="muted">
-              “He may not be licensed for everything, but he is emotionally committed to owning every tool known to mankind.”
-            </p>
-          </div>
         </div>
-      </div>
-    </section>
-
-    <section id="requests">
-      <div class="container">
-        <div class="section-title">
-          <h2>Demo request board</h2>
-          <p>Submitted requests appear here. You can mark them complete or delete them.</p>
-        </div>
-        <div class="request-list" id="requestList"></div>
       </div>
     </section>
 
@@ -700,7 +677,7 @@
 
   <footer>
     <div class="container">
-      <strong>Hire My Husband</strong> — a local handyman request app. Edit the text, name, and services however you want.
+      Made by barisalan.
     </div>
   </footer>
 
@@ -720,7 +697,6 @@
     const serviceGrid = document.getElementById("serviceGrid");
     const serviceSelect = document.getElementById("service");
     const requestForm = document.getElementById("requestForm");
-    const requestList = document.getElementById("requestList");
     const photosInput = document.getElementById("photos");
     const photoPreview = document.getElementById("photoPreview");
 
@@ -763,15 +739,7 @@
       localStorage.setItem("hireMyHusbandRequests", JSON.stringify(requests));
     }
 
-    function renderRequests() {
-      const requests = getRequests();
-      requestList.innerHTML = "";
-
-      if (!requests.length) {
-        requestList.innerHTML = `<div class="empty">No requests yet. Submit one above to test the app.</div>`;
-        return;
-      }
-
+    
       requests.forEach((request) => {
         const card = document.createElement("article");
         card.className = "request-card";
@@ -825,30 +793,9 @@
       saveRequests(requests);
       requestForm.reset();
       photoPreview.innerHTML = "";
-      renderRequests();
-      document.getElementById("requests").scrollIntoView({ behavior: "smooth" });
     });
 
-    requestList.addEventListener("click", (event) => {
-      const button = event.target.closest("button[data-action]");
-      if (!button) return;
-
-      const action = button.dataset.action;
-      const id = button.dataset.id;
-      let requests = getRequests();
-
-      if (action === "delete") {
-        requests = requests.filter((request) => request.id !== id);
-      } else if (action === "complete") {
-        requests = requests.map((request) => request.id === id ? { ...request, status: "Completed" } : request);
-      } else if (action === "pending") {
-        requests = requests.map((request) => request.id === id ? { ...request, status: "Pending" } : request);
-      }
-
-      saveRequests(requests);
-      renderRequests();
-    });
-
+    
     photosInput.addEventListener("change", () => {
       photoPreview.innerHTML = "";
       Array.from(photosInput.files).slice(0, 6).forEach((file) => {
@@ -860,7 +807,6 @@
     });
 
     initializeServices();
-    renderRequests();
   </script>
 </body>
 </html>
